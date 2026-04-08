@@ -16,7 +16,6 @@ def planner():
     ],
     ids=[
         "1", # valid
-        "2", # not valid num
         "3", # not valid input
     ]
 )
