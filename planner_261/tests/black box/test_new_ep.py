@@ -184,8 +184,8 @@ def test_attendee_input(monkeypatch, capsys, planner, inputs, expected):
         (["6", "5", "10", "12", "Room1", "done", "", "0"], ""),         # empty
     ],
     ids=[
-        "valid_description",
-        "empty_description",
+        "EP-30",
+        "EP-31",
     ]
 )
 def test_description(monkeypatch, capsys, planner, inputs, expected):
