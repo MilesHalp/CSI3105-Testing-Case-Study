@@ -14,7 +14,7 @@ def planner():
     ],
     ids=["EP-01", "EP-02", "EP-03"]
 )
-def test_menu_input_invalid(monkeypatch, capsys, planner, inputs, expected):
+def test_menu_input(monkeypatch, capsys, planner, inputs, expected):
     input_iter = iter(inputs)
     monkeypatch.setattr('builtins.input', lambda _: next(input_iter))
 
