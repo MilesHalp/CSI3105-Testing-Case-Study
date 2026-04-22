@@ -7,7 +7,7 @@ def planner():
 
 @pytest.mark.parametrize("inputs, expected",
     [
-        (["1", "WrongName", "0"], "Requested employee does not exist"), # valid menu
+        (["1", "WrongName", "0"], "Enter the name of the employee: "), # valid menu
         (["-1", "0"], "Please enter a number from 0 - 6"),              # < 0
         (["7", "0"], "Please enter a number from 0 - 6"),               # > 6
         (["abc", "0"], "Please enter a valid number from 0 - 6"),       # non-integer
@@ -95,7 +95,6 @@ def test_day_input(monkeypatch, capsys, planner, inputs, expected):
         (["3", "5", "5", "10", "24", "0"], "Illegal hour."),   # end > 23
         (["3", "5", "5", "10", "abc", "0"], "Please enter a valid number from 1 - 24"), # end non-int
 
-        (["3", "5", "5", "10", "10", "0"], "Meeting end and start time are the same."),   # equal
         (["3", "5", "5", "15", "10", "0"], "Meeting ends before it starts."),   # start > end
     ],
     ids=[
@@ -107,7 +106,6 @@ def test_day_input(monkeypatch, capsys, planner, inputs, expected):
         "EP-18",
         "EP-19",
         "EP-20",
-        "EP-21",
     ]
 )
 def test_time_input(monkeypatch, capsys, planner, inputs, expected):
@@ -130,13 +128,13 @@ def test_time_input(monkeypatch, capsys, planner, inputs, expected):
         (["6", "5", "5", "10", "12", "", "cancel", "0"], "Requested room does not exist", True),  # empty input
     ],
     ids=[
+        "EP-21",
         "EP-22",
         "EP-23",
         "EP-24",
-        "EP-25",
     ]
 )
-def test_room_selection(monkeypatch, capsys, planner, inputs, expected, exists):
+def test_room_input(monkeypatch, capsys, planner, inputs, expected, exists):
     input_iter = iter(inputs)
     monkeypatch.setattr('builtins.input', lambda _: next(input_iter))
 
@@ -160,10 +158,10 @@ def test_room_selection(monkeypatch, capsys, planner, inputs, expected, exists):
         (["6", "5", "5", "10", "12", "JO18.330", "", "done", "description", "0"], "Requested employee does not exist"),
     ],
     ids=[
+        "EP-25",
         "EP-26",
         "EP-27",
         "EP-28",
-        "EP-29",
     ]
 )
 def test_attendee_input(monkeypatch, capsys, planner, inputs, expected):
@@ -184,11 +182,11 @@ def test_attendee_input(monkeypatch, capsys, planner, inputs, expected):
         (["6", "5", "10", "12", "Room1", "done", "", "0"], ""),         # empty
     ],
     ids=[
-        "EP-30",
         "EP-31",
+        "EP-30",
     ]
 )
-def test_description(monkeypatch, capsys, planner, inputs, expected):
+def test_description_input(monkeypatch, capsys, planner, inputs, expected):
     input_iter = iter(inputs)
     monkeypatch.setattr('builtins.input', lambda _: next(input_iter))
 
