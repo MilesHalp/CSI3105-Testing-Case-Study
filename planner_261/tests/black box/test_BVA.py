@@ -156,7 +156,7 @@ def test_month_input(monkeypatch, capsys, planner, inputs, expected):
         "BVA-30",
     ]
 )
-def test_month_input(monkeypatch, capsys, planner, inputs, expected):
+def test_start_time_input(monkeypatch, capsys, planner, inputs, expected):
     input_iter = iter(inputs)
     monkeypatch.setattr('builtins.input', lambda _: next(input_iter))
 
@@ -188,7 +188,7 @@ def test_month_input(monkeypatch, capsys, planner, inputs, expected):
         "BVA-36",
     ]
 )
-def test_month_input(monkeypatch, capsys, planner, inputs, expected):
+def test_end_time_input(monkeypatch, capsys, planner, inputs, expected):
     input_iter = iter(inputs)
     monkeypatch.setattr('builtins.input', lambda _: next(input_iter))
 
