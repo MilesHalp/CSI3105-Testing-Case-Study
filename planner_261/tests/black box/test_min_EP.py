@@ -120,7 +120,6 @@ def test_room_input(monkeypatch, capsys, planner, inputs, expected):
 @pytest.mark.parametrize("inputs, expected",
     [
         (["6", "5", "5", "10", "12", "JO18.330", "WrongName", "done", "description", "0"], "Requested employee does not exist"),
-
         (["6", "5", "5", "10", "12", "JO18.330", "", "done", "description", "0"], "Requested employee does not exist"),
     ],
     ids=["EP-19", "EP-20"]
