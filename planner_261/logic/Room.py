@@ -1,6 +1,8 @@
 from logic.Calendar import Calendar
 from logic.ConflictException import ConflictsException
 
+# write in dock about tool,s own research magic mock
+
 
 class Room:
     """

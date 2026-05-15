@@ -12,12 +12,16 @@ from logic.ConflictException import ConflictsException
      (12, 10, 9, 10, "Month does not exist"),
      (5, 10, 23, 10, "Illegal hour"),
      (5, 10, 9, 24, "Illegal hour"),
-     (5, 10, 15, 10, "Meeting starts before it ends")],
-    ids=["1", "2", "3", "4", "5"],
+     (5, 10, 15, 10, "Meeting starts before it ends"),
+     (5, 10, 9, 10, None)],
+    ids=["1", "2", "3", "4", "5", "6"],
 )
 def test_check_times(month, day, start, end, result):
-    with pytest.raises(ConflictsException, match=result):
+    if result is None: # Tests to make sure it runs without error
         Calendar.check_times(month, day, start, end)
+    else:
+        with pytest.raises(ConflictsException, match=result):
+            Calendar.check_times(month, day, start, end)
 
 
 
