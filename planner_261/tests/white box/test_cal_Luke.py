@@ -9,6 +9,8 @@ def test_add_meeting():
     #replace calendar with mock
     cal = Calendar()
 
-    fake_meeting = MagicMock()
 
-    cal.add_meeting(fake_meeting)
+    cal.meeting = MagicMock()
+    cal.meeting.
+
+    cal.add_meeting(meeting)
