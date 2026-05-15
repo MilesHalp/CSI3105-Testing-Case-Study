@@ -16,12 +16,35 @@ from logic.ConflictException import ConflictsException
      (5, 10, 9, 10, None)],
     ids=["1", "2", "3", "4", "5", "6"],
 )
+
 def test_check_times(month, day, start, end, result):
     if result is None: # Tests to make sure it runs without error
         Calendar.check_times(month, day, start, end)
     else:
         with pytest.raises(ConflictsException, match=result):
             Calendar.check_times(month, day, start, end)
+
+@pytest.mark.parametrize(
+    "month, day, start, end, result",
+    [(5, 0, 0, 99, False),
+     (5, 10, 9, 10, )
+
+    ]
+)
+
+def test_is_busy(month, day, start, end, result):
+    cal = Calendar()
+
+    meeting = MagicMock()
+    meeting.get_start_time.return_value = 9
+    meeting.get_end_time.return_value = 10
+
+    if day != 0:
+        cal.occupied[month][day].append(meeting)
+
+    outcome = cal.is_busy(month, day, start, end)
+
+    assert outcome == result
 
 def test_clear_schedule():
     cal = Calendar()
