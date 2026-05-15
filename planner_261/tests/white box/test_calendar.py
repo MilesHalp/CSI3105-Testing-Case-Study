@@ -14,7 +14,7 @@ from logic.ConflictException import ConflictsException
      (5, 10, 9, 24, "Illegal hour"),
      (5, 10, 15, 10, "Meeting starts before it ends"),
      (5, 10, 9, 10, None)],
-    ids=["1", "2", "3", "4", "5", "6"],
+    ids=["CP1", "CP2", "CP3", "CP4", "CP5", "Y"],
 )
 def test_check_times(month, day, start, end, result):
     if result is None: # Tests to make sure it runs without error
@@ -23,7 +23,7 @@ def test_check_times(month, day, start, end, result):
         with pytest.raises(ConflictsException, match=result):
             Calendar.check_times(month, day, start, end)
 
-def test_clear_schedule():
+def test_clear_schedule_CP10():
     cal = Calendar()
 
     meeting1 = MagicMock()
@@ -42,15 +42,16 @@ def test_clear_schedule():
     # asserts that schedule is empty
     assert cal.occupied[5][10] == []
 
-# print agenda month / day
-def test_print_agenda_day_empty():
+# Test print agenda month & day with no meeting
+def test_print_agenda_CP8():
     cal = Calendar()
 
     result = cal.print_agenda(5, 10)
 
     assert result == "No Meetings booked on this date.\n\n"
 
-def test_print_agenda_day_filled():
+# Test print agenda month & day with a meeting
+def test_print_agenda_CP9():
     cal = Calendar()
 
     meeting = MagicMock()
@@ -63,15 +64,16 @@ def test_print_agenda_day_filled():
     assert "Agenda for 5/10 are as follows:" in result
     assert "Meeting" in result
 
-# print agenda month
-def test_print_agenda_month_empty():
+# Test print agenda with only month variable with no meeting
+def test_print_agenda_CP6():
     cal = Calendar()
 
     result = cal.print_agenda(5)
 
     assert result == "No Meetings booked on this date.\n\n"
 
-def test_print_agenda_month_filled():
+# Test print agenda with only month variable with a meeting
+def test_print_agenda_CP7():
     cal = Calendar()
 
     meeting = MagicMock()
@@ -84,8 +86,8 @@ def test_print_agenda_month_filled():
     assert "Agenda for 5:\n" in result
     assert "Meeting" in result
 
-# get meeting
-def test_get_meeting():
+# Tests path CP21
+def test_get_meeting_CP21():
     cal = Calendar()
 
     meeting = MagicMock()
@@ -96,8 +98,8 @@ def test_get_meeting():
 
     assert result == meeting
 
-# test remove
-def test_remove_meeting():
+# Tests path CP22
+def test_remove_meeting_CP22():
     cal = Calendar()
 
     meeting = MagicMock()
