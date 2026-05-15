@@ -1,3 +1,5 @@
+from unittest import result
+
 import pytest
 from unittest.mock import MagicMock
 
@@ -37,14 +39,14 @@ def test_clear_schedule():
     assert cal.occupied[5][10] == []
 
 # print agenda month / day
-def test_print_agenda_empty():
+def test_print_agenda_day_empty():
     cal = Calendar()
 
     result = cal.print_agenda(5, 10)
 
     assert result == "No Meetings booked on this date.\n\n"
 
-def test_print_agenda():
+def test_print_agenda_day_filled():
     cal = Calendar()
 
     meeting = MagicMock()
@@ -55,6 +57,27 @@ def test_print_agenda():
     result = cal.print_agenda(5, 10)
 
     assert "Agenda for 5/10 are as follows:" in result
+    assert "Meeting" in result
+
+# print agenda month
+def test_print_agenda_month_empty():
+    cal = Calendar()
+
+    result = cal.print_agenda(5)
+
+    assert result == "No Meetings booked on this date.\n\n"
+
+def test_print_agenda_month_filled():
+    cal = Calendar()
+
+    meeting = MagicMock()
+    meeting.__str__.return_value = "Meeting"
+
+    cal.occupied[5].append(meeting)
+
+    result = cal.print_agenda(5)
+
+    assert "Agenda for 5:\n" in result
     assert "Meeting" in result
 
 # get meeting
