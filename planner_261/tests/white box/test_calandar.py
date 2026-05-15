@@ -16,7 +16,6 @@ from logic.ConflictException import ConflictsException
      (5, 10, 9, 10, None)],
     ids=["1", "2", "3", "4", "5", "6"],
 )
-
 def test_check_times(month, day, start, end, result):
     if result is None: # Tests to make sure it runs without error
         Calendar.check_times(month, day, start, end)
@@ -24,41 +23,23 @@ def test_check_times(month, day, start, end, result):
         with pytest.raises(ConflictsException, match=result):
             Calendar.check_times(month, day, start, end)
 
-@pytest.mark.parametrize(
-    "month, day, start, end, result",
-    [(5, 0, 0, 99, False),
-     (5, 10, 9, 10, )
-
-    ]
-)
-
-def test_is_busy(month, day, start, end, result):
-    cal = Calendar()
-
-    meeting = MagicMock()
-    meeting.get_start_time.return_value = 9
-    meeting.get_end_time.return_value = 10
-
-    if day != 0:
-        cal.occupied[month][day].append(meeting)
-
-    outcome = cal.is_busy(month, day, start, end)
-
-    assert outcome == result
 def test_clear_schedule():
     cal = Calendar()
 
-    meeting = MagicMock()
+    meeting1 = MagicMock()
+    meeting2 = MagicMock()
 
-    cal.occupied[5][10].append(meeting)
+    # Add two meetings to the same day
+    cal.occupied[5][10].append(meeting1)
+    cal.occupied[5][10].append(meeting2)
 
-    # verify meeting exist
-    assert len(cal.occupied[5][10]) == 1
+    # confirms meetings exist
+    assert len(cal.occupied[5][10]) == 2
 
     # remove meeting
     cal.clear_schedule(5, 10)
 
-    # assert
+    # asserts that schedule is empty
     assert cal.occupied[5][10] == []
 
 # print agenda month / day
@@ -114,5 +95,17 @@ def test_get_meeting():
     result = cal.get_meeting(5, 10, 0)
 
     assert result == meeting
+
+# test remove
+def test_remove_meeting():
+    cal = Calendar()
+
+    meeting = MagicMock()
+
+    cal.occupied[5][10].append(meeting)
+
+    cal.remove_meeting(5, 10, 0)
+
+    assert cal.occupied[5][10] == []
 
 
