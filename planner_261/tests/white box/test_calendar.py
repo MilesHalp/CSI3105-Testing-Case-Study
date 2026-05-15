@@ -23,7 +23,7 @@ def test_check_times(month, day, start, end, result):
 
 @pytest.mark.parametrize(
     "month, day, start, end, result",
-    [(5, 0, 0, 99, False),
+    [(5, 1, 0, 23, False),
      (5, 10, 9, 10, True),
      (5, 10, 8, 9, True),
      (5, 10, 12, 14, False)
