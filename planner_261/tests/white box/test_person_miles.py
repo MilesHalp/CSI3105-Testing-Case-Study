@@ -39,25 +39,25 @@ def test_add_meeting_failure():
 def test_print_agenda_month():
     person = Person("Miles")
     person.calendar = MagicMock() # Create calender and assign a return value for the method
-    person.calendar.print_agenda_month.return_value = "Print agenda month output"
+    person.calendar.print_agenda.return_value = "Print agenda month output"
 
     result = person.calendar.print_agenda(5) # Insert only a month as a parameter
 
     # Ensure that month is outputted and the method was called
     assert result == "Print agenda month output"
-    person.calendar.add_meeting.assert_called_once_with(5)
+    person.calendar.print_agenda.assert_called_once_with(5)
 
 # Test that print agenda returns month and day if both are provided as a parameter
 def test_print_agenda_day():
     person = Person("Miles")
     person.calendar = MagicMock() # Create calender and assign a return value for the method
-    person.calendar.print_agenda_month.return_value = "Print agenda day output"
+    person.calendar.print_agenda.return_value = "Print agenda day output"
 
     result = person.calendar.print_agenda(5, 12) # Insert a month and day as parameters
 
     # Ensure that month+day is outputted and the method was called
     assert result == "Print agenda day output"
-    person.calendar.add_meeting.assert_called_once_with(5, 12)
+    person.calendar.print_agenda.assert_called_once_with(5, 12)
 
 # Test is busy correctly returns the right boolean
 def test_is_busy():
