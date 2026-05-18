@@ -7,21 +7,64 @@ from logic.Meeting import Meeting
 
 
 #4.1
-def test_add_meeting(monkeypatch):
+def test_add_meeting_success():
     #replace calendar with mock
     cal = Calendar()
     meeting = MagicMock()
+    meeting.calendar = MagicMock()
 
-    monkeypatch.setenv("m_month", 1)
-    monkeypatch.setenv("m_day", 2)
-    monkeypatch.setenv("m_start", 8)
-    monkeypatch.setenv("m_end", 12)
-
-
-    monkeypatch.setattr(cal, 'check_times', MagicMock(return_value=None))
-
-    monkeypatch.setenv("to_check.get_description", "Exists")
-    monkeypatch.setenv("to_check.get_start_time", "12")
-    monkeypatch.setenv("to_check.get_end_time", "8")
+    meeting.get_month.return_value = 1
+    meeting.get_day.return_value = 1
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
 
     cal.add_meeting(meeting)
+    assert meeting in cal.occupied[1][1]
+
+
+def test_add_meeting_failure_day():
+    #replace calendar with mock
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 2
+    meeting.get_day.return_value = 42
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
+
+    with pytest.raises(ConflictsException) as exc_info:
+        cal.add_meeting(meeting)
+    assert "Day does not exist." in str(exc_info.value)
+
+
+def test_add_meeting_failure_month():
+    #replace calendar with mock
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 42
+    meeting.get_day.return_value = 2
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
+
+    with pytest.raises(ConflictsException) as exc_info:
+        cal.add_meeting(meeting)
+    assert "Month does not exist." in str(exc_info.value)
+
+def test_add_meeting_failure_times():
+    #replace calendar with mock
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 2
+    meeting.get_day.return_value = 2
+    meeting.get_start_time.side_effect = [12, 13, 13]
+    meeting.get_end_time.side_effect = [14, 15, 15]
+
+
+    with pytest.raises(ConflictsException) as exc_info:
+        cal.add_meeting(meeting)
+    #assert "Overlap with another item" in str(exc_info.value)
