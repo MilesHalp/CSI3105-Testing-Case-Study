@@ -28,7 +28,7 @@ def test_check_times(month, day, start, end, result):
      (5, 10, 8, 9, True),
      (5, 10, 12, 14, False)
     ],
-    ids = ["CP11", "CP12", "CP13", "CP14"],
+    ids = ["11", "12", "13", "14"],
 )
 def test_is_busy(month, day, start, end, result):
     cal = Calendar()
