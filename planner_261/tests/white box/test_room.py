@@ -39,8 +39,8 @@ def test_print_agenda_RP2():
 
     room.calendar.print_agenda.assert_called_once_with(5, 12)
 
-# Test full only path of init, add, get id, print agenda, is busy, get meeting, remove meeting
-def test_room_RP3_to_RP7():
+# Test the rest of the paths for RP3, RP4, RP5, RP7, RP8
+def test_room_RP3_to_RP8():
     room = Room("J204")
 
     # Replace calendar with mock
