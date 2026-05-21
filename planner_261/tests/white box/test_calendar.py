@@ -159,7 +159,7 @@ def test_add_meeting_CP17():
     assert meeting in cal.occupied[2][29]
 
 def test_add_meeting_failure_times_CP18():
-    #Adds a meeting, then attempts to add an identical meeting to raise conflict
+    #Adds a meeting, then attempts to add an identical meeting to raise conflict.
     # Conflict raised on start time
     cal = Calendar()
     meeting = MagicMock()
@@ -179,7 +179,7 @@ def test_add_meeting_failure_times_CP18():
     assert "Overlap with another item" in str(exc_info.value)
 
 def test_add_meeting_failure_times_CP19():
-    # Adds a meeting, then attempts to add an identical meeting to raise conflict
+    # Adds a meeting, then attempts to add an identical meeting to raise conflict.
     # Conflict raised on end time
     cal = Calendar()
     meeting = MagicMock()
