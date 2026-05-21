@@ -107,8 +107,100 @@ def test_print_agenda_CP7():
     assert "Agenda for 5:\n" in result
     assert "Meeting" in result
 
+def test_add_meeting_CP15():
+    # Successfully adds a meeting
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 1
+    meeting.get_day.return_value = 1
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
+    meeting.get_description.return_value = "test meeting"
+
+    cal.add_meeting(meeting)
+    assert meeting in cal.occupied[1][1]
+
+def test_add_meeting_CP16():
+    #Adds a meeting with Day Does Not Exist
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 1
+    meeting.get_day.return_value = 1
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
+    meeting.get_description.return_value = "Day does not exist"
+
+    cal.add_meeting(meeting)
+    assert meeting in cal.occupied[1][1]
+
+def test_add_meeting_CP17():
+    #Attempts to add a meeting on the 29th Feb, triggers false for both:
+    #        if m_month not in self.occupied:
+    #        self.occupied[m_month] = {}
+    #    if m_day not in self.occupied[m_month]:
+    #        self.occupied[m_month][m_day] = []
+
+
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 2
+    meeting.get_day.return_value = 29
+    meeting.get_start_time.return_value = 8
+    meeting.get_end_time.return_value = 12
+    meeting.get_description.return_value = "Day does not exist"
+
+    cal.add_meeting(meeting)
+    assert meeting in cal.occupied[2][29]
+
+def test_add_meeting_failure_times_CP18():
+    #Adds a meeting, then attempts to add an identical meeting to raise conflict
+    # Conflict raised on start time
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 2
+    meeting.get_day.return_value = 2
+    meeting.get_start_time.return_value = 12
+    meeting.get_end_time.return_value = 14
+    meeting.to_check.get_description.return_value = "Exists"
+
+    cal.add_meeting(meeting)
+
+
+    with pytest.raises(ConflictsException) as exc_info:
+        cal.add_meeting(meeting)
+    assert "Overlap with another item" in str(exc_info.value)
+
+def test_add_meeting_failure_times_CP19():
+    # Adds a meeting, then attempts to add an identical meeting to raise conflict
+    # Conflict raised on end time
+    cal = Calendar()
+    meeting = MagicMock()
+    meeting.calendar = MagicMock()
+
+    meeting.get_month.return_value = 2
+    meeting.get_day.return_value = 2
+    meeting.get_start_time.return_value = 12
+    meeting.get_end_time.return_value = 14
+    meeting.to_check.get_description.return_value = "Exists"
+
+    cal.add_meeting(meeting)
+
+    meeting.get_start_time.return_value = 8
+
+    with pytest.raises(ConflictsException) as exc_info:
+        cal.add_meeting(meeting)
+    assert "Overlap with another item" in str(exc_info.value)
+
 # Tests path CP21
-def test_get_meeting_CP21():
+def test_get_meeting_CP20():
     cal = Calendar()
 
     meeting = MagicMock()
@@ -120,7 +212,7 @@ def test_get_meeting_CP21():
     assert result == meeting
 
 # Tests path CP22
-def test_remove_meeting_CP22():
+def test_remove_meeting_CP21():
     cal = Calendar()
 
     meeting = MagicMock()
