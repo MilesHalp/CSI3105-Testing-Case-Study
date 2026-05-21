@@ -37,7 +37,7 @@ def test_print_agenda_RP2():
     result = room.print_agenda(5, 12)
     assert result == "print agenda Output"
 
-    room.calendar.print_agenda.assert_called_once(5, 12)
+    room.calendar.print_agenda.assert_called_once_with(5, 12)
 
 # Test full only path of init, add, get id, print agenda, is busy, get meeting, remove meeting
 def test_room_RP3():
@@ -73,8 +73,8 @@ def test_room_RP3():
     # get_meeting
     meeting = room.get_meeting(5, 10, 0)
     assert meeting == meeting
-    room.calendar.print_agenda.assert_called_once_with(5, 10, 0)
+    room.calendar.get_meeting.assert_called_once_with(5, 10, 0)
 
     # remove_meeting
     room.remove_meeting(5, 10, 0)
-    room.calendar.print_agenda.assert_called_once_with(5, 10, 0)
+    room.calendar.remove_meeting.assert_called_once_with(5, 10, 0)
